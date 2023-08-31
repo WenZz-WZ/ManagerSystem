@@ -20,7 +20,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result login (@RequestBody Admin admin){
 
-        if (StrUtil.isBlank(admin.getA_username()) || StrUtil.isBlank(admin.getA_password())) {
+        if (StrUtil.isBlank(admin.getUsername()) || StrUtil.isBlank(admin.getPassword())) {
             return Result.error("数据输入不合法");
         }
 

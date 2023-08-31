@@ -20,11 +20,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper,Admin> implements 
     @Override
     public Admin login(Admin admin) {
 
-        String password = SecureUtil.md5(admin.getA_password());
+        String password = SecureUtil.md5(admin.getPassword());
 
         LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Admin::getA_username, admin.getA_username());
-        queryWrapper.eq(Admin::getA_password, password);
+        queryWrapper.eq(Admin::getUsername, admin.getUsername());
+        queryWrapper.eq(Admin::getPassword, password);
         Admin user = adminMapper.selectOne(queryWrapper);
         if (null == user) {
             return null;
