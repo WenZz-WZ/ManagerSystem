@@ -29,7 +29,7 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("yeb接口文档")
+                .title("XXX管理系统接口文档")
                 .description("ManagermentSystem接口文档")
                 .contact(new Contact("Wz","http:localhost:8081/doc.html", "xxx@xxx.com"))
                 .version("1.0")

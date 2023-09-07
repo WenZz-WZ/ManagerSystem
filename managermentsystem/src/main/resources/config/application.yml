@@ -8,6 +8,10 @@ spring:
     password: root
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
-  type-aliases-package: com.it.server.pojo
+  type-aliases-package: com.it.entity
   configuration:
     map-underscore-to-camel-case: false
+# mybatis SQL 打印（方法接口所在的包，不是mapper.xml所在的包）
+logging:
+  level:
+    com.it.mapper: debug

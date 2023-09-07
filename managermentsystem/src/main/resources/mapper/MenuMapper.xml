@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.mapper.MenuMapper">
+
+    <resultMap id="MenusWithChildren" type="com.it.entity.Menu">
+        <id column="id2" property="id"></id>
+        <result column="name2" property="name"></result>
+        <result column="path2" property="path"></result>
+        <result column="icon2" property="icon"></result>
+        <result column="component2" property="component"></result>
+        <collection property="children" ofType="com.it.entity.Menu">
+            <result column="id3" property="id"></result>
+            <result column="name3" property="name"></result>
+            <result column="component3" property="component"></result>
+            <result column="icon3" property="icon"></result>
+            <result column="url3" property="url"></result>
+            <result column="path3" property="path"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getMenus" resultMap="MenusWithChildren">
+        SELECT
+            m2.id as id2,
+            m2.`name` as name2,
+            m2.path as path2,
+            m2.icon as icon2,
+            m2.component as component2,
+            m3.id as id3,
+            m3.`name` as name3,
+            m3.component as component3,
+            m3.icon as icon3,
+            m3.url as url3,
+            m3.path as path3
+        FROM
+            d_menu m1
+        LEFT JOIN
+            d_menu m2
+        ON
+            m1.id = m2.pid
+        LEFT JOIN
+            d_menu m3
+        ON
+            m2.id = m3.pid
+        WHERE
+            m1.id = 1
+        ORDER BY
+            id2
+
+    </select>
+</mapper>
