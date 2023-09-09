@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside :width="asideWidth" style="background-color: #001529; min-height: 100vh; box-shadow: 2px 0 6px rgba(0,21,41,.35)">
-        <div style="display: flex; justify-content: center; align-items: center; height: 10%">
-          <img src="@/assets/logo1.png" style="width: 40px; height: 40px">
-          <span v-show="!isCollapse" style="color: white; padding-left: 5px">XXX管理系统</span>
-        </div>
+      <el-aside style="background-color: #001529; min-height: 100vh; box-shadow: 2px 0 6px rgba(0,21,41,.35)">
         <!--菜单-->
         <el-menu
             :default-active="$route.path"
@@ -13,26 +9,43 @@
             background-color="#001529"
             text-color="rgba(255, 255, 255, 0.65)"
             :collapse="isCollapse"
-            :collapse-transition="true"
+            :collapse-transition="false"
             active-text-color="#fff"
+            unique-opened
             style="border: none"
+            class="el-menu-vertical-demo"
         >
+          <el-menu-item-group>
+            <div style="display: flex; justify-content: center; align-items: center; height: 10%; padding: 10px 0">
+              <img src="@/assets/logo1.png" style="width: 40px; height: 40px">
+              <span v-show="!isCollapse" style="color: white; padding-left: 5px">XXX管理系统</span>
+            </div>
+          </el-menu-item-group>
           <el-menu-item index="/home">
             <i class="el-icon-location"></i>
             <span>首页</span>
           </el-menu-item>
-          <el-submenu index="1">
+          <el-submenu
+              :index="index + ''"
+              v-for="(item, index) in routes"
+              :key="index"
+          >
             <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <i
+                  :class="item.icon"
+                  style=" margin-right: 5px;"
+              ></i>
+              <span>{{item.name}}</span>
             </template>
-            <el-menu-item index="/test">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item-group>
+              <el-menu-item
+                  :index="children.path"
+                  v-for="(children, indexj) in item.children"
+                  :key="indexj"
+              >{{children.name}}
+              </el-menu-item>
+            </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="/test">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -40,11 +53,15 @@
         <!--头部-->
         <el-header style=" display: flex; align-items: center; justify-content: space-between; box-shadow: 2px 0 6px rgba(0,21,41,.35)">
           <div style="display: flex; align-items: center">
+
+            <!--<el-button @click="showMenu" size="medium" :icon="this.isCollapse ? 'el-icon-s-unfold' :'el-icon-s-fold' "></el-button>-->
+
+
             <i :class="[ this.isCollapse === false ? 'el-icon-s-fold' : 'el-icon-s-unfold']" style="font-size: 26px"
                @click="showMenu"></i>
-            <el-breadcrumb separator="/" style="padding-left: 5px">
-              <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
+            <el-breadcrumb separator="/" v-if="this.$route.path !== '/home'"  style="padding-left: 5px">
+              <el-breadcrumb-item :to="{ path: '/home' }"> 首页 </el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: $route.path}">{{ $route.name }}</el-breadcrumb-item>
             </el-breadcrumb>
           </div>
           <div>
@@ -80,26 +97,21 @@ export default {
   name: 'Home',
   data() {
     return {
-      isCollapse: false,
-      asideWidth: '200px',
+      isCollapse: false
+    }
+  },
+  // 计算属性
+  computed: {
+    routes () {
+      return this.$store.state.routes;
     }
   },
   mounted() {
-    console.log(this.$route)
+    console.log('route',this.$route)
   },
   methods: {
     showMenu() {
-      console.log(this.isCollapse)
-      if (this.isCollapse) {
-        this.isCollapse = false
-        this.asideWidth = '200px'
-      } else {
-        this.isCollapse = true
-        this.asideWidth = 'auto'
-
-      }
-
-
+      this.isCollapse = !this.isCollapse
     }
   }
 
@@ -107,26 +119,16 @@ export default {
 </script>
 
 
-<style>
-.el-menu--inline .el-menu-item {
-  background-color: #000c17 !important;
+<style scoped>
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px !important;
+  height: 100% !important;
 }
-.el-menu-item:hover, .el-submenu__title:hover {
-  color: white !important;
+.el-aside{
+  width: auto !important;
 }
-.el-menu-item:hover i, .el-submenu__title:hover i {
-  color: white !important;
-}
-.el-menu-item.is-active {
-  background-color: #1890ff !important;
-  border-radius: 10px;
-  margin: 0 4px;
-}
-.el-menu-item, .el-submenu__title {
-  margin: 0 4px;
-}
-.el-menu-item, .el-submenu__title{
-  height: 40px !important;
-  line-height: 35px !important;
-}
+
+
+
 </style>

@@ -14,7 +14,7 @@ export default {
   name: "",
   props: {},
   components: {},
-  mounted: {},
+  mounted() {},
   data() {
     return {}
   },
