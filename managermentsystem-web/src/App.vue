@@ -23,6 +23,7 @@
   background-color: #1890ff !important;
   border-radius: 10px !important;
   min-width: 0 !important;
+
 }
 .el-menu-item, .el-submenu__title {
   margin: 0 4px;
@@ -32,8 +33,11 @@
 .el-menu-item-group__title{
   padding: 0 !important;
 }
-.el-menu-item, .el-submenu__title{
+/*.el-menu-item, .el-submenu__title{
   padding-left: 16px !important;
+}*/
+.el-submenu__title i, .el-menu-item.is-active i{
+  margin-left: -4px !important;
 }
 
 
